@@ -1,4 +1,8 @@
 import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { RootState } from '../../store';
+import { paginationActions } from '../../store/pagination-slice';
 
 const PaginationWrapper = styled.div`
   background-color: #1b1e21;
@@ -31,18 +35,44 @@ const PaginationButton = styled.li`
   padding: 0.3rem 1.5rem;
   font-size: 1.5rem;
   line-height: 1.8rem;
+  cursor: pointer;
   color: #299ded;
+  &:hover {
+    color: #606365;
+  }
 `;
 
 export const MainPagination = () => {
+  const dispatch = useDispatch();
+
+  const totalMovies = 20;
+  const pageNumbers: number[] = [];
+
+  const moviesPerPage = useSelector(
+    (state: RootState) => state.pagination.moviesPerPage
+  );
+
+  for (let i = 1; i <= Math.ceil(totalMovies / moviesPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  const currentPageChangeHandler = (value: number) => () => {
+    dispatch(paginationActions.setCurrentPage(value));
+  };
+
   return (
     <PaginationWrapper>
       <Container className="container">
         <Logo>Movies</Logo>
         <PaginationButtons>
-          <PaginationButton>1</PaginationButton>
-          <PaginationButton>2</PaginationButton>
-          <PaginationButton>3</PaginationButton>
+          {pageNumbers.map((pageNum) => (
+            <PaginationButton
+              key={pageNum}
+              onClick={currentPageChangeHandler(pageNum)}
+            >
+              {pageNum}
+            </PaginationButton>
+          ))}
         </PaginationButtons>
       </Container>
     </PaginationWrapper>

@@ -1,7 +1,10 @@
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import star from '../assets/star.svg';
 import empty_preview from '../assets/empty-preview.png';
+import { movieActions } from '../store/movie-slice';
 
 const HoverBlock = styled.div`
   position: absolute;
@@ -73,11 +76,27 @@ const ButtonMore = styled.a`
   }
 `;
 
-export const MoviesItem: React.FC<{
+interface WrapperProps {
   image: string;
   rating: number;
   genres: string[];
-}> = ({ image, rating, genres }) => {
+  id: number;
+}
+
+export const MoviesItem: React.FC<WrapperProps> = ({
+  id,
+  image,
+  rating,
+  genres,
+}) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const currentMovieChangeHandler = (value: number) => () => {
+    dispatch(movieActions.setCurrentMovieId(value));
+    history.push('/movie-detail');
+  };
+
   return (
     <ItemContainer>
       <IMG src={image ? image : empty_preview} alt="Movies Preview" />
@@ -88,10 +107,10 @@ export const MoviesItem: React.FC<{
         </div>
         <Genres>
           {genres.map((genre) => (
-            <p>{genre}</p>
+            <p key={genre}>{genre}</p>
           ))}
         </Genres>
-        <ButtonMore>More</ButtonMore>
+        <ButtonMore onClick={currentMovieChangeHandler(id)}>More</ButtonMore>
       </HoverBlock>
     </ItemContainer>
   );
