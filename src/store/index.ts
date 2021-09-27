@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { detailSlice } from './detail-slice';
 
-import { paginationSlice } from './pagination-slice';
 import { movieSlice } from './movie-slice';
 
 export const store = configureStore({
-  reducer: { pagination: paginationSlice.reducer, movie: movieSlice.reducer },
+  reducer: { movie: movieSlice.reducer, detail: detailSlice.reducer },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
+
+export type AppDispatch = typeof store.dispatch;

@@ -6,12 +6,22 @@ const Main = styled.main``;
 
 interface WrapperProps {
   children: React.ReactNode;
+  currentPage: number;
+  setCurrentPage: Function;
 }
 
-export const Layout: React.FC<WrapperProps> = ({ children }) => {
+export const Layout: React.FC<WrapperProps> = ({
+  children,
+  currentPage,
+  setCurrentPage,
+}) => {
   return (
     <>
-      <MainPagination />
+      <MainPagination
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        pageNeighbours={1}
+      />
       <Main className="container">{children}</Main>
     </>
   );

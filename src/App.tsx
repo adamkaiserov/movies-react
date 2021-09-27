@@ -1,28 +1,33 @@
 import { Route, Switch } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useAppDispatch } from './hooks';
+import { useEffect, useState } from 'react';
 
 import { Layout } from './components/Layout/Layout';
 import { MovieDetail } from './components/MovieDetail';
 import { MoviesList } from './components/MoviesList';
-import { RootState } from './store';
+import { fetchFilms } from './store/movie-slice';
 
-function App() {
-  const currentMovie = useSelector(
-    (state: RootState) => state.movie.currentMovie
-  );
+const App = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchFilms(currentPage));
+  }, [currentPage, dispatch]);
 
   return (
     <Switch>
       <Route path="/" exact>
-        <Layout>
+        <Layout currentPage={currentPage} setCurrentPage={setCurrentPage}>
           <MoviesList />
         </Layout>
       </Route>
-      <Route path="/movie-detail">
-        <MovieDetail movieData={currentMovie} />
+      <Route path={`/movies/:movieId`}>
+        <MovieDetail />
       </Route>
     </Switch>
   );
-}
+};
 
 export default App;

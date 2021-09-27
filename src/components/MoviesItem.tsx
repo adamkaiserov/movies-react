@@ -1,10 +1,8 @@
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import star from '../assets/star.svg';
 import empty_preview from '../assets/empty-preview.png';
-import { movieActions } from '../store/movie-slice';
 
 const HoverBlock = styled.div`
   position: absolute;
@@ -12,7 +10,7 @@ const HoverBlock = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 32px 67px;
+  padding: 2rem 3.1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -31,7 +29,11 @@ const ItemContainer = styled.div`
   position: relative;
   color: #ffffff;
   overflow: hidden;
+  max-width: 280px;
   transition: all 0.2s ease 0s;
+  @media (max-width: 768px) {
+    margin: 1.9rem auto;
+  }
   &:hover {
     border: 6px solid #2e95dc;
     text-align: center;
@@ -63,24 +65,28 @@ const Genres = styled.div`
   }
 `;
 
-const ButtonMore = styled.a`
+const ButtonMore = styled.div`
   font-size: 1.5rem;
   line-height: 1.8rem;
-  color: #303539;
   background: #299ded;
   border-radius: 5px;
-  padding: 5px 30px;
+  padding: 5px 0px;
   cursor: pointer;
-  &:hover {
-    color: #fff;
+  a {
+    color: #303539;
+    text-decoration: none;
+    padding: 5px 30px;
+    &:hover {
+      color: #fff;
+    }
   }
 `;
 
 interface WrapperProps {
+  id: string;
   image: string;
   rating: number;
   genres: string[];
-  id: number;
 }
 
 export const MoviesItem: React.FC<WrapperProps> = ({
@@ -89,14 +95,6 @@ export const MoviesItem: React.FC<WrapperProps> = ({
   rating,
   genres,
 }) => {
-  const dispatch = useDispatch();
-  const history = useHistory();
-
-  const currentMovieChangeHandler = (value: number) => () => {
-    dispatch(movieActions.setCurrentMovieId(value));
-    history.push('/movie-detail');
-  };
-
   return (
     <ItemContainer>
       <IMG src={image ? image : empty_preview} alt="Movies Preview" />
@@ -110,7 +108,11 @@ export const MoviesItem: React.FC<WrapperProps> = ({
             <p key={genre}>{genre}</p>
           ))}
         </Genres>
-        <ButtonMore onClick={currentMovieChangeHandler(id)}>More</ButtonMore>
+        <ButtonMore>
+          <Link className="button-more" to={`/movies/${id}`}>
+            More
+          </Link>
+        </ButtonMore>
       </HoverBlock>
     </ItemContainer>
   );
