@@ -6,6 +6,9 @@ import { Comment } from './Comment';
 
 const CommentsList = styled.ul`
   padding: 0;
+  @media (max-width: 478px) {
+    padding-right: 20px;
+  }
 `;
 
 const Form = styled.form`
@@ -33,6 +36,10 @@ const Input = styled.input`
   &::placeholder {
     color: #fff;
   }
+  @media (max-width: 478px) {
+    font-size: 1rem;
+    flex: 1 1 100%;
+  }
 `;
 
 const Button = styled.button`
@@ -43,6 +50,9 @@ const Button = styled.button`
   align-items: center;
   background-color: inherit;
   cursor: pointer;
+  @media (max-width: 478px) {
+    transform: scale(0.8);
+  }
 `;
 
 export interface CommentType {

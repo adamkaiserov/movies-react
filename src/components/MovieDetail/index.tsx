@@ -15,13 +15,16 @@ const DetailWrapper = styled.div`
 
 const Header = styled.div`
   background-color: #1b1e21;
-  padding: 11px 0;
+  padding: 11px 30px;
   & p {
     font-size: 1.5rem;
     line-height: 1.8rem;
   }
   & img {
     cursor: pointer;
+    @media (max-width: 478px) {
+      transform: scale(0.8);
+    }
   }
 `;
 
@@ -41,11 +44,26 @@ const Body = styled.div`
   }
   & div {
     flex: 0 1 50%;
+    @media (max-width: 1240px) {
+      padding: 0px 30px;
+    }
+    @media (max-width: 1070px) {
+      flex: 0 1 49%;
+    }
+    @media (max-width: 478px) {
+      padding: 0px 10px;
+    }
+  }
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+
+  .image-div {
+    text-align: center;
   }
 
   .bg-image {
-    width: 466px;
-    height: 698px;
+    max-width: 100%;
   }
 
   .year {
@@ -73,6 +91,9 @@ const Body = styled.div`
 
 const Genres = styled.ul`
   display: flex;
+  @media (max-width: 478px) {
+    flex-direction: column;
+  }
   margin-bottom: 22px;
   li {
     margin-right: 20px;
@@ -136,7 +157,7 @@ export const MovieDetail = () => {
         </Container>
       </Header>
       <Body className="container">
-        <div>
+        <div className="image-div">
           <img className="bg-image" src={movie.large_cover_image} alt="" />
         </div>
         <div>

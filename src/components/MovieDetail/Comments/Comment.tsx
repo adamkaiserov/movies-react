@@ -31,6 +31,9 @@ const Text = styled.p`
   font-size: 1.25rem;
   line-height: 1.4rem;
   overflow: hidden;
+  @media (max-width: 478px) {
+    font-size: 1.1rem;
+  }
 `;
 
 interface CommentProps {
